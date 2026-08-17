@@ -50,7 +50,7 @@ def run_copywriter(state: dict) -> dict:
 
 
 # ---------------------------------------------------------------------
-# 2 & 3. PERSONA CRITICS — Gen-Z and Professional
+# 2, 3 & 4. PERSONA CRITICS — Gen-Z, Professional, and Elderly Customer
 # ---------------------------------------------------------------------
 GENZ_SYSTEM = """You are a Gen-Z social media user (age 19-24) reviewing two ad
 campaigns. Judge them on: authenticity, engagement potential, and whether they'd
@@ -59,6 +59,12 @@ actually stop scrolling for it. Be blunt. Respond ONLY in JSON:
 
 PROFESSIONAL_SYSTEM = """You are a marketing professional reviewing two ad campaigns
 for brand safety, clarity, and credibility. Respond ONLY in JSON:
+{"preferred": "A or B", "score_a": 1-10, "score_b": 1-10, "comments": "1-2 sentences"}"""
+
+ELDERLY_SYSTEM = """You are an elderly customer (age 65+) reviewing two ad campaigns.
+Judge them on clarity, trustworthiness, readability, practical value, and whether the
+call to action is easy to understand. Mention confusing slang, exaggerated claims, or
+missing useful information. Respond ONLY in JSON:
 {"preferred": "A or B", "score_a": 1-10, "score_b": 1-10, "comments": "1-2 sentences"}"""
 
 
@@ -91,11 +97,15 @@ def run_professional(state: dict) -> dict:
     return run_persona(state, "Professional Persona", PROFESSIONAL_SYSTEM)
 
 
+def run_elderly(state: dict) -> dict:
+    return run_persona(state, "Elderly Customer Persona", ELDERLY_SYSTEM)
+
+
 # ---------------------------------------------------------------------
-# 4. CAMPAIGN MANAGER — decides APPROVE or REVISE (dynamic routing)
+# 5. CAMPAIGN MANAGER — decides APPROVE or REVISE (dynamic routing)
 # ---------------------------------------------------------------------
 MANAGER_SYSTEM = """You are the Campaign Manager. You receive scores and comments
-from two focus-group personas about Campaign A and B. Decide:
+from three focus-group personas about Campaign A and B. Decide:
 1. Which variant is stronger overall (winner: "A" or "B")
 2. Whether the winning variant is good enough to ship, or needs another revision
    round. Approve if average score >= 7. Otherwise request revision.

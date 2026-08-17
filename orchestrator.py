@@ -3,7 +3,7 @@ The orchestrator. This is NOT a fixed pipeline (A -> B -> C -> D).
 It reads state["status"] after every agent call and decides which
 agent should act next. This is the 'dynamic routing' requirement.
 """
-from agents import run_copywriter, run_genz, run_professional, run_manager
+from agents import run_copywriter, run_genz, run_professional, run_elderly, run_manager
 from state import new_state
 
 
@@ -16,7 +16,7 @@ def route(state: dict) -> str:
     elif status == "revising":
         return "copywriter"       # send rejected work back to the writer
     elif status == "reviewing":
-        # Both personas must have given feedback for this round before the
+        # All three personas must have given feedback for this round before the
         # Manager runs. This is the dynamic part: router checks CURRENT
         # state (how many critiques exist this round) not a fixed order.
         this_round_feedback = [f for f in state["feedback"] if f["round"] == state["iteration"]]
@@ -26,6 +26,8 @@ def route(state: dict) -> str:
             return "genz"
         elif "Professional Persona" not in personas_done:
             return "professional"
+        elif "Elderly Customer Persona" not in personas_done:
+            return "elderly"
         else:
             return "manager"
     elif status == "approved":
@@ -38,6 +40,7 @@ AGENT_FUNCS = {
     "copywriter": run_copywriter,
     "genz": run_genz,
     "professional": run_professional,
+    "elderly": run_elderly,
     "manager": run_manager,
 }
 
