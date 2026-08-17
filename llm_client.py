@@ -26,7 +26,7 @@ def get_client():
     return _client
 
 
-def call_agent(system_prompt: str, user_prompt: str, model: str = "gemini-3.6-flash",
+def call_agent(system_prompt: str, user_prompt: str, model: str = "gemini-3.5-flash",
                 max_retries: int = 4) -> str:
     """Send a single-turn request to Gemini and return plain text.
     Retries temporary 429/503 errors, but stops on exhausted daily quota."""
