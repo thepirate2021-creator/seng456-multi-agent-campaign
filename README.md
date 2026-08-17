@@ -7,13 +7,14 @@ This SENG 456 project uses multiple LLM agents to create, evaluate, revise, and 
 - **Copywriter:** Creates two campaign variants and revises them when requested.
 - **Gen-Z Persona:** Evaluates both campaigns from a younger audience's perspective.
 - **Professional Persona:** Evaluates clarity, credibility, usefulness, and brand safety.
+- **Elderly Customer Persona:** Evaluates readability, trustworthiness, practical value, and clarity for customers aged 65+.
 - **Campaign Manager:** Compares the persona feedback, selects a winner, and returns either `APPROVE` or `REVISE`.
 
 ## Workflow
 
 1. The user supplies a campaign brief.
 2. The Copywriter produces Campaign A and Campaign B.
-3. Both personas independently evaluate the campaigns.
+3. All three personas independently evaluate the campaigns.
 4. The Campaign Manager selects the stronger campaign.
 5. If the decision is `REVISE`, feedback is routed back to the Copywriter.
 6. The revised campaigns are evaluated again until approval or the iteration limit is reached.
